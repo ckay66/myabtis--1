@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mybatis核心配置文件组成格式
+ 1) 标识标签 书写在配置文件第一行 用于配置当前文件信息
+ 2) 约束头文件标签  需要导入对应的jar包 拥有约束文件的地址 用于与idea约束当前配置文件的书写
+ 3) 配置标签 用于进行功能配置
+ -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- configuration：mybatis核心配置的根标签 -->
+<configuration>
+    <!-- properties:属性配置 类似于变量 可以预先定义在当前配置文件中可以通过${name}进行使用-->
+    <!-- 语法1 单独配置属性并使用 -->
+<!--    <properties>-->
+<!--        <property name="a" value="com.mysql.jdbc.Driver"/>-->
+<!--        <property name="b" value="jdbc:mysql://localhost:3306/test"/>-->
+<!--    </properties>-->
+    <!-- 语法2（常用） 读取properties配置文件 自动设置 -->
+    <properties resource="jdbc.properties"></properties>
+
+    <!--  typeAliases:类型命名 用于简化sql配置文件中返回类型的简写  -->
+    <typeAliases>
+        <!--  语法1 单独为一个类设置 指定的别名-->
+<!--        <typeAlias type="com.sqsf.javabean.User" alias="aaa"></typeAlias>-->
+<!--        <typeAlias type="com.sqsf.javabean.User" alias="bbb"></typeAlias>-->
+        <!-- 语法2 （常用） 将指定的包下所有类进行读取 使用默认别名(类名) 不区分大小写 -->
+        <package name="com.sqsf.javabean"/>
+    </typeAliases>
+    <!--  environments:数据库环境 可以通过default在多个环境中进行切换
+      实际开发中 可能存在多个环境 本地环境 测试环境 生产环境 可以快速切换
+      -->
+    <environments default="a">
+        <environment id="a">
+            <!-- 使用jdbc的事务，mybatis进行管理 -->
+            <transactionManager type="JDBC" />
+            <!-- 使用jdbc的连接池连接数据库 -->
+            <!-- 如果配置了<properties resource="db.properties"/> -->
+            <!-- value可以使用value="${driver}"的形式进行书写 /> -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}" />
+                <property name="url" value="${jdbc.url}" />
+                <property name="username" value="${jdbc.username}" />
+                <property name="password" value="${jdbc.password}" />
+            </dataSource>
+        </environment>
+        <environment id="b">
+            <!-- 使用jdbc的事务，mybatis进行管理 -->
+            <transactionManager type="JDBC" />
+            <!-- 使用jdbc的连接池连接数据库 -->
+            <!-- 如果配置了<properties resource="db.properties"/> -->
+            <!-- value可以使用value="${driver}"的形式进行书写 /> -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}" />
+                <property name="url" value="${jdbc.url}" />
+                <property name="username" value="aaaaaaa" />
+                <property name="password" value="${jdbc.password}" />
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- mappers:映射文件的配置-->
+    <mappers>
+        <!-- 语法1 单独配置sql映射文件 通过namespace.id进行使用  -->
+<!--        <mapper resource="mapper/UserMapper.xml" />-->
+        <!-- 语法2 单独配置接口路径 自动加载对应的xml 生成实现类 通过方法调用使用 -->
+<!--        <mapper class="mapper.UserMapper"></mapper>-->
+        <!-- 语法3 通过扫描指定包 加载所有的接口与配置文件-->
+        <package name="mapper"/>
+    </mappers>
+</configuration>

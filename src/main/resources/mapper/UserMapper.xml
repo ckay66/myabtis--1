@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+	namespace唯一表示此名字下的crud语句
+ -->
+<mapper namespace="mapper.UserMapper">
+    <!--
+        id:在此命名空间下唯一标识
+        resultType:查询结果的返回类型或者集合的泛型
+     -->
+    <select id="selectAllUser" resultType="user">
+        select * from t_user
+    </select>
+    <!--
+    <insert id=""></insert>
+    <delete id=""></delete>
+    <update id=""></update>
+    -->
+</mapper>
