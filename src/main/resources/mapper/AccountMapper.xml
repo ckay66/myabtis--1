@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.AccountMapper">
+    <insert id="insertAccount">
+        insert into account(id,name)values(#{id},#{name})
+    </insert>
+    <!-- 2) 使用selectKey标签与数据库函数UUID()
+       在添加数据前生成uuid存入对象
+       -->
+    <insert id="insertAccount1">
+        <selectKey resultType="string" keyProperty="id" keyColumn="uuid" order="BEFORE">
+            select replace(UUID(),'-','') as uuid from dual
+        </selectKey>
+        insert into account(id,name)values(#{id},#{name})
+    </insert>
+</mapper>

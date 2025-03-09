@@ -2,20 +2,43 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--
-	namespace唯一表示此名字下的crud语句
- -->
 <mapper namespace="mapper.UserMapper">
-    <!--
-        id:在此命名空间下唯一标识
-        resultType:查询结果的返回类型或者集合的泛型
-     -->
-    <select id="selectAllUser" resultType="user">
+    <!-- 开启二级缓存 -->
+    <cache/>
+
+
+    <select id="selectAll" resultType="user">
         select * from t_user
     </select>
-    <!--
-    <insert id=""></insert>
-    <delete id=""></delete>
-    <update id=""></update>
+
+    <insert id="insertUser">
+        insert into t_user(name,sal,birthday)values(#{name},#{sal},#{birthday})
+    </insert>
+
+    <!-- mybatis提供了添加数据时获取自增主键的功能
+     实现原理：mybatis可以在添加数据后获取添加那一行的数据
+     只需要取出id列的值 赋值给传入的自定义类型参数对应的属性即可
+     -->
+    <!-- 1)通过mybatis提供的insert标签属性实现
+    useGeneratedKeys="true"  告诉mybatis我需要获取自增主键
+    keyColumn="id"           告诉mybatis添加那行数据哪一列的值是我们需要的
+    keyProperty="id"         告诉mybatis获取的数据存入哪个属性
     -->
+    <insert id="insertUser1" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into t_user(name,sal,birthday)values(#{name},#{sal},#{birthday})
+    </insert>
+    <!-- 2)通过selectKey标签 实现额外执行sql语句
+       在添加sql语句执行完毕后立即执行查询语句获取刚添加数据的id
+       进行赋值
+       resultType="int"   额外执行sql需要数据的类型
+       keyColumn="uid"    额外执行sql结果列中需要数据的列名
+       keyProperty="id"   将获取的数据赋值给变量哪个属性
+       order="AFTER"/BEFORE 额外执行的sql执行时机
+       -->
+    <insert id="insertUser2">
+        <selectKey resultType="int" keyColumn="uid" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()  as uid
+        </selectKey>
+        insert into t_user(name,sal,birthday)values(#{name},#{sal},#{birthday})
+    </insert>
 </mapper>

@@ -1,67 +1,65 @@
 package org.example.test;
 import mapper.UserMapper;
-import org.apache.catalina.User;
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.example.Util.MyBatisUtil;
+import org.example.sp.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+
 public class UserTest {
     SqlSession session;
     UserMapper mapper;
     @Before
-    public void before(){
+    public void a() {
         SqlSessionFactory factory = MyBatisUtil.getSqlSessionFactory();
         session = factory.openSession(true);
         mapper = session.getMapper(UserMapper.class);
+
     }
+
     @After
-    public void after(){
+    public void b() {
+        //5、关闭资源
         session.close();
     }
     @Test
-    public void selectAllUser(){
-        List<User> users = mapper.selectAllUser();
-        for(User u:users){
-            System.out.println(u);
-        }
-    }
-
-    @Test
-    public void updateNameById(){
-        mapper.updateNameById(1,"aaa");
+    public void selectAll1(){
+        mapper.selectAll();
+        System.out.println("~~~~~~~~~");
+        mapper.selectAll();
+        System.out.println("~~~~~~~~~");
+        mapper.selectAll();
+        System.out.println("~~~~~~~~~");
     }
     @Test
-    public void selectById(){
-        User user = mapper.selectById(1);
-        System.out.println(user);
+    public void selectAll2(){
+        mapper.selectAll();
+        System.out.println("~~~~~~~~~");
+        mapper.selectAll();
+        System.out.println("~~~~~~~~~");
+        mapper.selectAll();
+        System.out.println("~~~~~~~~~");
     }
     @Test
     public void insertUser(){
-        User u=new User();
-        u.setName("abavvvv");
-        u.setSal(200);
-        u.setBirthday(new Date());
+        User u = new User("a",1,new Date());
         mapper.insertUser(u);
     }
     @Test
-    public void deleteByArray(){
-        int [] ids={10,11};
-        mapper.deleteByArray(ids);
+    public void insertUser1(){
+        User u=new User("b",2,new Date());
+        mapper.insertUser1(u);
+        System.out.println(u);
     }
-
     @Test
-    public void selectLikeName(){
-        List<User> users = mapper.selectLikeName("a");
-        //4、打印测试
-        for(User u:users){
-            System.out.println(u);
-        }
+    public void insertUser2(){
+        User u=new User("c",3,new Date());
+        mapper.insertUser2(u);
+        System.out.println(u);
     }
 }
