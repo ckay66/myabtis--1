@@ -16,10 +16,12 @@ public class UserTest {
     UserMapper mapper;
     @Before
     public void a() {
+        //1、创建SqlSessionFactory对象，也是单例模式的
         SqlSessionFactory factory = MyBatisUtil.getSqlSessionFactory();
+        //2、创建SqlSession对象 true 自动提交事务 不写也没事 因为默认在sqlsession关闭时提交事务
         session = factory.openSession(true);
+        //3、调用session的方法namespace的名字.id
         mapper = session.getMapper(UserMapper.class);
-
     }
 
     @After
@@ -27,39 +29,18 @@ public class UserTest {
         //5、关闭资源
         session.close();
     }
+
     @Test
-    public void selectAll1(){
-        mapper.selectAll();
-        System.out.println("~~~~~~~~~");
-        mapper.selectAll();
-        System.out.println("~~~~~~~~~");
-        mapper.selectAll();
-        System.out.println("~~~~~~~~~");
+    public void selectAll(){
+        for (User user : mapper.selectAll()) {
+            System.out.println(user);
+        }
     }
+
     @Test
-    public void selectAll2(){
-        mapper.selectAll();
-        System.out.println("~~~~~~~~~");
-        mapper.selectAll();
-        System.out.println("~~~~~~~~~");
-        mapper.selectAll();
-        System.out.println("~~~~~~~~~");
-    }
-    @Test
-    public void insertUser(){
-        User u = new User("a",1,new Date());
-        mapper.insertUser(u);
-    }
-    @Test
-    public void insertUser1(){
-        User u=new User("b",2,new Date());
-        mapper.insertUser1(u);
-        System.out.println(u);
-    }
-    @Test
-    public void insertUser2(){
-        User u=new User("c",3,new Date());
-        mapper.insertUser2(u);
-        System.out.println(u);
+    public void selectUser_Role(){
+        for (User user : mapper.selectUser_Role()) {
+            System.out.println(user);
+        }
     }
 }

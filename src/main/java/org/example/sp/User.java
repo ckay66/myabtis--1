@@ -1,55 +1,66 @@
 package org.example.sp;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.util.List;
 
 public class User {
-    private int id;
-    private String name;
-    private double sal;
-    private Date birthday;
+    private int uid;
+    private String username;
+    private String password;
+    private String phone;
+    private Role r;
 
-    public User(String a, int i, Date date) {
+    public User() {
     }
 
-    public int getId() {
-        return id;
+    public Role getR() {
+        return r;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setR(Role r) {
+        this.r = r;
     }
 
-    public String getName() {
-        return name;
+    public int getUid() {
+        return uid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
-    public double getSal() {
-        return sal;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSal(double sal) {
-        this.sal = sal;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public String getPassword() {
+        return password;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", sal=" + sal +
-                ", birthday=" + birthday +
+                "uid=" + uid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", r=" + r +
                 '}';
     }
 }
